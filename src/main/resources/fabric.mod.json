@@ -20,6 +20,7 @@
   "entrypoints": {
     "main": ["pepjebs.enchant_the_rainbow.EnchantTheRainbowMod"]
   },
+  "mixins": ["enchant_the_rainbow.mixins.json"],
 
   "depends": {
     "fabricloader": ">=0.7.4",
