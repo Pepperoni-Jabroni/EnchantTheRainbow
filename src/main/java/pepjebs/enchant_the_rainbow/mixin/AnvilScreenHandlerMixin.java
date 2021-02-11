@@ -1,17 +1,49 @@
 package pepjebs.enchant_the_rainbow.mixin;
 
-import net.minecraft.screen.AnvilScreenHandler;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.DyeItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.screen.*;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pepjebs.enchant_the_rainbow.EnchantTheRainbowMod;
 
 @Mixin(AnvilScreenHandler.class)
-public class AnvilScreenHandlerMixin {
+public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
+
+    private static final String GLINT_COLOR_NBT_TAG = "GlintColor";
+
+    @Shadow
+    @Final
+    private Property levelCost;
+
+    @Shadow
+    private int repairItemUsage;
+
+    public AnvilScreenHandlerMixin(
+            @Nullable ScreenHandlerType<?> type,
+            int syncId,
+            PlayerInventory playerInventory,
+            ScreenHandlerContext context) {
+        super(type, syncId, playerInventory, context);
+    }
 
     @Inject(method = "updateResult", at = @At(value = "RETURN"))
     private void updateNetherStarFragmentColor(CallbackInfo ci) {
-        EnchantTheRainbowMod.LOGGER.info("Here");
+        ItemStack leftStack = this.input.getStack(0).copy();
+        ItemStack rightStack = this.input.getStack(1).copy();
+        if (leftStack.getItem() == EnchantTheRainbowMod.NETHER_STAR_FRAGMENT
+                && rightStack.getItem() instanceof DyeItem) {
+            CompoundTag tag = leftStack.getOrCreateTag();
+            tag.putString(GLINT_COLOR_NBT_TAG, ((DyeItem) rightStack.getItem()).getColor().getName());
+            leftStack.setTag(tag);
+            this.output.setStack(0, leftStack);
+        }
     }
 }
