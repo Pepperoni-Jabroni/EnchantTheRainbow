@@ -36,14 +36,27 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
 
     @Inject(method = "updateResult", at = @At(value = "RETURN"))
     private void updateNetherStarFragmentColor(CallbackInfo ci) {
+        // Do Nether Star Fragment + Dye check
         ItemStack leftStack = this.input.getStack(0).copy();
         ItemStack rightStack = this.input.getStack(1).copy();
+        String glintColorStr = null;
         if (leftStack.getItem() == EnchantTheRainbowMod.NETHER_STAR_FRAGMENT
                 && rightStack.getItem() instanceof DyeItem) {
+            glintColorStr =  ((DyeItem) rightStack.getItem()).getColor().getName();
+        }
+        // Do Enchanted + Nether Star Fragment check
+        if (leftStack.hasGlint()
+                && rightStack.getItem() == EnchantTheRainbowMod.NETHER_STAR_FRAGMENT
+                && rightStack.getOrCreateTag().contains(GLINT_COLOR_NBT_TAG)) {
+            glintColorStr =  rightStack.getTag().getString(GLINT_COLOR_NBT_TAG);
+        }
+        if (glintColorStr != null) {
             CompoundTag tag = leftStack.getOrCreateTag();
-            tag.putString(GLINT_COLOR_NBT_TAG, ((DyeItem) rightStack.getItem()).getColor().getName());
+            tag.putString(GLINT_COLOR_NBT_TAG, glintColorStr);
             leftStack.setTag(tag);
             this.output.setStack(0, leftStack);
+            this.levelCost.set(1);
+            this.repairItemUsage = 1;
         }
     }
 }
