@@ -1,0 +1,14 @@
+pluginManagement {
+    repositories {
+        jcenter()
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        maven {
+            name = 'Mod Menu Api'
+            url = 'https://maven.fabricmc.net/io/github/prospector/modmenu/'
+        }
+        gradlePluginPortal()
+    }
+}
