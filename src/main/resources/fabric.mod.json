@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "enchant_the_rainbow",
+  "version": "1.0.0",
+
+  "name": "Enchant the Rainbow",
+  "description": "Enables players to choose the enchantment glint color for their enchanted items.",
+  "authors": [
+    "Pepperoni__Jabroni__"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/enchant-the-rainbow",
+    "sources": "https://github.com/Pepperoni-Jabroni/EnchantTheRainbow",
+    "issues": "https://github.com/Pepperoni-Jabroni/EnchantTheRainbow/issues"
+  },
+
+  "license": "GPL-3.0",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": ["pepjebs.enchant_the_rainbow.EnchantTheRainbowMod"]
+  },
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  }
+}
