@@ -17,7 +17,7 @@ import pepjebs.enchant_the_rainbow.EnchantTheRainbowMod;
 @Mixin(AnvilScreenHandler.class)
 public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
 
-    private static final String GLINT_COLOR_NBT_TAG = "GlintColor";
+    public static final String GLINT_COLOR_NBT_TAG = "GlintColor";
 
     @Shadow
     @Final
