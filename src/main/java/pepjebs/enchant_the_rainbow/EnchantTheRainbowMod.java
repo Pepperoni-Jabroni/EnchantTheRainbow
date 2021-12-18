@@ -13,7 +13,7 @@ public class EnchantTheRainbowMod implements ModInitializer {
 
     public static String MOD_ID = "enchant_the_rainbow";
     public static Logger LOGGER = LogManager.getLogger(MOD_ID);
-    public static final String GLINT_COLOR_NBT_TAG = "GlintColor";
+    public static final String GLINT_COLOR_NBT_TAG = MOD_ID + ":GlintColor";
 
     public static Item NETHER_STAR_FRAGMENT = null;
 
