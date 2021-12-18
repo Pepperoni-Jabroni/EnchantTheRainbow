@@ -4,9 +4,11 @@
   "package": "pepjebs.enchant_the_rainbow.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "AnvilScreenHandlerMixin"
+    "AnvilScreenHandlerMixin",
+    "ItemRendererMixin"
   ],
   "client": [
+    "RenderPhaseAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -3,7 +3,7 @@ package pepjebs.enchant_the_rainbow.mixin;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.*;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -16,8 +16,6 @@ import pepjebs.enchant_the_rainbow.EnchantTheRainbowMod;
 
 @Mixin(AnvilScreenHandler.class)
 public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
-
-    public static final String GLINT_COLOR_NBT_TAG = "GlintColor";
 
     @Shadow
     @Final
@@ -47,13 +45,13 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
         // Do Enchanted + Nether Star Fragment check
         if (leftStack.hasGlint()
                 && rightStack.getItem() == EnchantTheRainbowMod.NETHER_STAR_FRAGMENT
-                && rightStack.getOrCreateTag().contains(GLINT_COLOR_NBT_TAG)) {
-            glintColorStr =  rightStack.getTag().getString(GLINT_COLOR_NBT_TAG);
+                && rightStack.getOrCreateNbt().contains(EnchantTheRainbowMod.GLINT_COLOR_NBT_TAG)) {
+            glintColorStr =  rightStack.getNbt().getString(EnchantTheRainbowMod.GLINT_COLOR_NBT_TAG);
         }
         if (glintColorStr != null) {
-            CompoundTag tag = leftStack.getOrCreateTag();
-            tag.putString(GLINT_COLOR_NBT_TAG, glintColorStr);
-            leftStack.setTag(tag);
+            NbtCompound tag = leftStack.getOrCreateNbt();
+            tag.putString(EnchantTheRainbowMod.GLINT_COLOR_NBT_TAG, glintColorStr);
+            leftStack.setNbt(tag);
             this.output.setStack(0, leftStack);
             this.levelCost.set(1);
             this.repairItemUsage = 1;
