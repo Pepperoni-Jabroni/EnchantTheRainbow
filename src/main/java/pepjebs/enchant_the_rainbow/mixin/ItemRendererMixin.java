@@ -26,69 +26,68 @@ import java.util.List;
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
 
-    @Inject(method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/renderer/model/ItemCameraTransforms$TransformType;ZLcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/IRenderTypeBuffer;IILnet/minecraft/client/renderer/model/IBakedModel;)V", at = @At("HEAD"))
-    private void setColorRuneTargetStack(ItemStack itemStackIn, ModelTransformation.Mode transformTypeIn, boolean leftHand, MatrixStack matrixStackIn, VertexConsumerProvider vertexConsumers, int combinedLightIn, int combinedOverlayIn, IBakedModel modelIn, CallbackInfo callbackInfo) {
-        ColorRunesModule.setTargetStack(itemStackIn);
+    @Inject(method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;IILnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"))
+    private void setColorRuneTargetStack(ItemStack stack, ModelTransformation.Mode transformationType, int light, int overlay, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int seed, CallbackInfo callbackInfo) {
+        ColorRunesModule.setTargetStack(stack);
     }
 
-    @Redirect(method = "getArmorGlintConsumer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;getArmorGlint()Lnet/minecraft/client/renderer/RenderType;"))
+    @Redirect(method = "getArmorGlintConsumer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderLayer;getArmorGlint()Lnet/minecraft/client/render/RenderLayer;"))
     private static RenderLayer getArmorGlint() {
         return ColorRunesModule.getArmorGlint();
     }
 
-    @Redirect(method = "getArmorGlintConsumer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;getArmorEntityGlint()Lnet/minecraft/client/renderer/RenderType;"))
+    @Redirect(method = "getArmorGlintConsumer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderLayer;getArmorEntityGlint()Lnet/minecraft/client/render/RenderLayer;"))
     private static RenderLayer getArmorEntityGlint() {
         return ColorRunesModule.getArmorEntityGlint();
     }
 
-    @Redirect(method = "getBuffer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;getGlint()Lnet/minecraft/client/renderer/RenderType;"))
+    @Redirect(method = "getItemGlintConsumer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderLayer;getGlint()Lnet/minecraft/client/render/RenderLayer;"))
     private static RenderLayer getGlint() {
         return ColorRunesModule.getGlint();
     }
 
-    @Redirect(method = "getBuffer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;getEntityGlint()Lnet/minecraft/client/renderer/RenderType;"))
+    @Redirect(method = "getItemGlintConsumer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderLayer;getEntityGlint()Lnet/minecraft/client/render/RenderLayer;"))
     private static RenderLayer getEntityGlint() {
         return ColorRunesModule.getEntityGlint();
     }
 
-    @Redirect(method = "getEntityGlintVertexBuilder", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;getGlintDirect()Lnet/minecraft/client/renderer/RenderType;"))
+    @Redirect(method = "getDirectItemGlintConsumer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderLayer;getDirectGlint()Lnet/minecraft/client/render/RenderLayer;"))
     private static RenderLayer getGlintDirect() {
         return ColorRunesModule.getGlintDirect();
     }
 
-    @Redirect(method = "getEntityGlintVertexBuilder", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;getEntityGlintDirect()Lnet/minecraft/client/renderer/RenderType;"))
+    @Redirect(method = "getDirectItemGlintConsumer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderLayer;getDirectEntityGlint()Lnet/minecraft/client/render/RenderLayer;"))
     private static RenderLayer getEntityGlintDirect() {
         return ColorRunesModule.getEntityGlintDirect();
     }
 
-    @Redirect(method = "getGlintVertexBuilder", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;getGlint()Lnet/minecraft/client/renderer/RenderType;"))
-    private static RenderLayer getGlintVertexBuilder() {
-        return ColorRunesModule.getGlint();
-    }
-
-    @Redirect(method = "getDirectGlintVertexBuilder", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;getGlintDirect()Lnet/minecraft/client/renderer/RenderType;"))
-    private static RenderLayer getDirectGlintVertexBuilder() {
-        return ColorRunesModule.getGlintDirect();
-    }
+//    @Redirect(method = "getGlintVertexBuilder", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderLayer;getGlintVertexBuilder()Lnet/minecraft/client/render/RenderLayer;"))
+//    private static RenderLayer getGlintVertexBuilder() {
+//        return ColorRunesModule.getGlint();
+//    }
+//
+//    @Redirect(method = "getDirectGlintVertexBuilder", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderLayer;getDirectGlintVertexBuilder()Lnet/minecraft/client/render/RenderLayer;"))
+//    private static RenderLayer getDirectGlintVertexBuilder() {
+//        return ColorRunesModule.getGlintDirect();
+//    }
 
     @Accessor
-    public abstract ItemColors getItemColors();
+    public abstract ItemColors getColors();
 
     @Inject(method = "renderBakedItemQuads", at = @At(value = "HEAD"), cancellable = true)
-    public void renderQuads(MatrixStack ms, VertexConsumer vertices, List<BakedQuad> quads, ItemStack stack, int lightmap, int overlay, CallbackInfo ci) {
-        if (ItemSharingModule.alphaValue != 1.0F) {
-            boolean flag = !stack.isEmpty();
-            MatrixStack.Entry entry = ms.peek();
+    public void renderQuads(MatrixStack ms, VertexConsumer vertices, List<BakedQuad> quads, ItemStack stack, int light, int overlay, CallbackInfo ci) {
+        boolean flag = !stack.isEmpty();
+        MatrixStack.Entry entry = ms.peek();
 
-            for(BakedQuad bakedquad : quads) {
-                int i = flag && bakedquad.hasColor() ? getItemColors().getColor(stack, bakedquad.getColorIndex()) : -1;
+        for(BakedQuad bakedquad : quads) {
+            int i = flag && bakedquad.hasColor() ? getColors().getColor(stack, bakedquad.getColorIndex()) : -1;
 
-                float r = (i >> 16 & 255) / 255.0F;
-                float g = (i >> 8 & 255) / 255.0F;
-                float b = (i & 255) / 255.0F;
-                vertices.quad(entry, bakedquad, r, g, b, ItemSharingModule.alphaValue, lightmap, overlay, true);
-            }
-            ci.cancel();
+            float r = (i >> 16 & 255) / 255.0F;
+            float g = (i >> 8 & 255) / 255.0F;
+            float b = (i & 255) / 255.0F;
+            // quad(Entry matrixEntry, BakedQuad quad, float[] brightnesses, float red, float green, float blue, int[] lights, int overlay, boolean useQuadColorData)
+            vertices.quad(entry, bakedquad, new float[]{1.0F, 1.0F, 1.0F, 1.0F}, r, g, b, new int[]{light, light, light, light}, overlay, true);
         }
+        ci.cancel();
     }
 }

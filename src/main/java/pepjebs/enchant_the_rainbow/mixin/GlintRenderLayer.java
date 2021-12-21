@@ -1,0 +1,149 @@
+package pepjebs.enchant_the_rainbow.mixin;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.render.*;
+import net.minecraft.util.DyeColor;
+import net.minecraft.util.Identifier;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Invoker;
+import pepjebs.enchant_the_rainbow.EnchantTheRainbowMod;
+import pepjebs.enchant_the_rainbow.module.ColorRunesModule;
+
+// This class lovingly yoinked (& updated to 1.18) from
+// https://github.com/VazkiiMods/Quark/blob/master/src/main/java/vazkii/quark/content/tools/client/GlintRenderType.java
+// Published under the "CC BY-NC-SA 3.0" Creative Commons License
+@Environment(EnvType.CLIENT)
+@Mixin(RenderLayer.class)
+public class GlintRenderLayer extends RenderLayer {
+
+    public static List<RenderLayer> glintColor = newRenderList(GlintRenderLayer::buildGlintRenderLayer);
+    public static List<RenderLayer> entityGlintColor = newRenderList(GlintRenderLayer::buildEntityGlintRenderLayer);
+    public static List<RenderLayer> glintDirectColor = newRenderList(GlintRenderLayer::buildGlintDirectRenderLayer);
+    public static List<RenderLayer> entityGlintDirectColor = newRenderList(GlintRenderLayer::buildEntityGlintDriectRenderLayer);
+
+    public static List<RenderLayer> armorGlintColor = newRenderList(GlintRenderLayer::buildArmorGlintRenderLayer);
+    public static List<RenderLayer> armorEntityGlintColor = newRenderList(GlintRenderLayer::buildArmorEntityGlintRenderLayer);
+
+    public GlintRenderLayer(String name, VertexFormat vertexFormat, VertexFormat.DrawMode drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, Runnable startAction, Runnable endAction) {
+        super(name, vertexFormat, drawMode, expectedBufferSize, hasCrumbling, translucent, startAction, endAction);
+    }
+
+    public static void addGlintTypes(Object2ObjectLinkedOpenHashMap<RenderLayer, BufferBuilder> map) {
+        addGlintTypes(map, glintColor);
+        addGlintTypes(map, entityGlintColor);
+        addGlintTypes(map, glintDirectColor);
+        addGlintTypes(map, entityGlintDirectColor);
+        addGlintTypes(map, armorGlintColor);
+        addGlintTypes(map, armorEntityGlintColor);
+    }
+
+    private static List<RenderLayer> newRenderList(Function<String, RenderLayer> func) {
+        ArrayList<RenderLayer> list = new ArrayList<>(ColorRunesModule.RUNE_TYPES);
+
+        for (DyeColor color : DyeColor.values())
+            list.add(func.apply(color.getName()));
+
+        return list;
+    }
+
+    private static void addGlintTypes(Object2ObjectLinkedOpenHashMap<RenderLayer, BufferBuilder> map, List<RenderLayer> typeList) {
+        for(RenderLayer renderType : typeList)
+            if (!map.containsKey(renderType))
+                map.put(renderType, new BufferBuilder(renderType.getExpectedBufferSize()));
+    }
+
+    @Invoker("of")
+    public static RenderLayer.MultiPhase invokeOf(String name, VertexFormat vertexFormat, VertexFormat.DrawMode drawMode, int expectedBufferSize, RenderLayer.MultiPhaseParameters phaseData) {
+        throw new AssertionError();
+    }
+
+    private static RenderLayer buildGlintRenderLayer(String name) {
+        final Identifier res = new Identifier(EnchantTheRainbowMod.MOD_ID, "textures/misc/glint_" + name + ".png");
+
+        return invokeOf("glint_" + name, VertexFormats.POSITION_TEXTURE, VertexFormat.DrawMode.QUADS, 256, MultiPhaseParameters.builder()
+                .texture(new Texture(res, true, false))
+                .writeMaskState(COLOR_MASK)
+                .cull(RenderPhase.DISABLE_CULLING)
+                .depthTest(RenderPhase.EQUAL_DEPTH_TEST)
+                .transparency(GLINT_TRANSPARENCY)
+                .target(ITEM_TARGET) // maybe not TRANSLUCENT_TARGET
+                .texturing(GLINT_TEXTURING)
+                .build(false));
+    }
+
+    private static RenderLayer buildEntityGlintRenderLayer(String name) {
+        final Identifier res = new Identifier(EnchantTheRainbowMod.MOD_ID, "textures/misc/glint_" + name + ".png");
+
+        return invokeOf("entity_glint_" + name, VertexFormats.POSITION_TEXTURE, VertexFormat.DrawMode.QUADS, 256, MultiPhaseParameters.builder()
+                .texture(new Texture(res, true, false))
+                .writeMaskState(COLOR_MASK)
+                .cull(DISABLE_CULLING)
+                .depthTest(EQUAL_DEPTH_TEST)
+                .transparency(GLINT_TRANSPARENCY)
+                .target(ITEM_TARGET)
+                .texturing(ENTITY_GLINT_TEXTURING)
+                .build(false));
+    }
+
+
+    private static RenderLayer buildGlintDirectRenderLayer(String name) {
+        final Identifier res = new Identifier(EnchantTheRainbowMod.MOD_ID, "textures/misc/glint_" + name + ".png");
+
+        return invokeOf("glint_direct_" + name, VertexFormats.POSITION_TEXTURE, VertexFormat.DrawMode.QUADS, 256, MultiPhaseParameters.builder()
+                .texture(new Texture(res, true, false))
+                .writeMaskState(COLOR_MASK)
+                .cull(DISABLE_CULLING)
+                .depthTest(EQUAL_DEPTH_TEST)
+                .transparency(GLINT_TRANSPARENCY)
+                .texturing(GLINT_TEXTURING)
+                .build(false));
+    }
+
+
+    private static RenderLayer buildEntityGlintDriectRenderLayer(String name) {
+        final Identifier res = new Identifier(EnchantTheRainbowMod.MOD_ID, "textures/misc/glint_" + name + ".png");
+
+        return invokeOf("entity_glint_direct_" + name, VertexFormats.POSITION_TEXTURE, VertexFormat.DrawMode.QUADS, 256, MultiPhaseParameters.builder()
+                .texture(new Texture(res, true, false))
+                .writeMaskState(COLOR_MASK)
+                .cull(DISABLE_CULLING)
+                .depthTest(EQUAL_DEPTH_TEST)
+                .transparency(GLINT_TRANSPARENCY)
+                .texturing(ENTITY_GLINT_TEXTURING)
+                .build(false));
+    }
+
+    private static RenderLayer buildArmorGlintRenderLayer(String name) {
+        final Identifier res = new Identifier(EnchantTheRainbowMod.MOD_ID, "textures/misc/glint_" + name + ".png");
+
+        return invokeOf("entity_glint_direct_" + name, VertexFormats.POSITION_TEXTURE, VertexFormat.DrawMode.QUADS, 256, MultiPhaseParameters.builder()
+                .texture(new Texture(res, true, false))
+                .writeMaskState(COLOR_MASK)
+                .cull(DISABLE_CULLING)
+                .depthTest(EQUAL_DEPTH_TEST)
+                .transparency(GLINT_TRANSPARENCY)
+                .texturing(ENTITY_GLINT_TEXTURING)
+                .layering(VIEW_OFFSET_Z_LAYERING)
+                .build(false));
+    }
+
+    private static RenderLayer buildArmorEntityGlintRenderLayer(String name) {
+        final Identifier res = new Identifier(EnchantTheRainbowMod.MOD_ID, "textures/misc/glint_" + name + ".png");
+
+        return invokeOf("entity_glint_direct_" + name, VertexFormats.POSITION_TEXTURE, VertexFormat.DrawMode.QUADS, 256, MultiPhaseParameters.builder()
+                .texture(new Texture(res, true, false))
+                .writeMaskState(COLOR_MASK)
+                .cull(DISABLE_CULLING)
+                .depthTest(EQUAL_DEPTH_TEST)
+                .transparency(GLINT_TRANSPARENCY)
+                .texturing(ENTITY_GLINT_TEXTURING)
+                .layering(VIEW_OFFSET_Z_LAYERING)
+                .build(false));
+    }
+}

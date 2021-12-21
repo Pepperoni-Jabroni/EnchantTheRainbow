@@ -37,20 +37,20 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
         // Do Nether Star Fragment + Dye check
         ItemStack leftStack = this.input.getStack(0).copy();
         ItemStack rightStack = this.input.getStack(1).copy();
-        String glintColorStr = null;
+        int glintColor = -1;
         if (leftStack.getItem() == EnchantTheRainbowMod.NETHER_STAR_FRAGMENT
                 && rightStack.getItem() instanceof DyeItem) {
-            glintColorStr =  ((DyeItem) rightStack.getItem()).getColor().getName();
+            glintColor =  ((DyeItem) rightStack.getItem()).getColor().getId();
         }
         // Do Enchanted + Nether Star Fragment check
         if (leftStack.hasGlint()
                 && rightStack.getItem() == EnchantTheRainbowMod.NETHER_STAR_FRAGMENT
                 && rightStack.getOrCreateNbt().contains(EnchantTheRainbowMod.GLINT_COLOR_NBT_TAG)) {
-            glintColorStr =  rightStack.getNbt().getString(EnchantTheRainbowMod.GLINT_COLOR_NBT_TAG);
+            glintColor =  rightStack.getNbt().getInt(EnchantTheRainbowMod.GLINT_COLOR_NBT_TAG);
         }
-        if (glintColorStr != null) {
+        if (glintColor != -1) {
             NbtCompound tag = leftStack.getOrCreateNbt();
-            tag.putString(EnchantTheRainbowMod.GLINT_COLOR_NBT_TAG, glintColorStr);
+            tag.putInt(EnchantTheRainbowMod.GLINT_COLOR_NBT_TAG, glintColor);
             leftStack.setNbt(tag);
             this.output.setStack(0, leftStack);
             this.levelCost.set(1);
