@@ -8,6 +8,7 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pepjebs.enchant_the_rainbow.item.NetherStarFragmentItem;
 
 public class EnchantTheRainbowMod implements ModInitializer {
 
@@ -22,7 +23,7 @@ public class EnchantTheRainbowMod implements ModInitializer {
         Registry.register(
                 Registry.ITEM,
                 new Identifier(MOD_ID, "nether_star_fragment"),
-                new Item((new Item.Settings()).group(ItemGroup.MISC).rarity(Rarity.UNCOMMON)));
+                new NetherStarFragmentItem((new Item.Settings()).group(ItemGroup.MISC).rarity(Rarity.UNCOMMON)));
         NETHER_STAR_FRAGMENT = Registry.ITEM.get(new Identifier(MOD_ID, "nether_star_fragment"));
     }
 }

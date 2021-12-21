@@ -4,6 +4,7 @@ import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedQuad;
@@ -26,8 +27,8 @@ import java.util.List;
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
 
-    @Inject(method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;IILnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"))
-    private void setColorRuneTargetStack(ItemStack stack, ModelTransformation.Mode transformationType, int light, int overlay, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int seed, CallbackInfo callbackInfo) {
+    @Inject(method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V", at = @At("HEAD"))
+    private void setColorRuneTargetStack(ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo callbackInfo) {
         ColorRunesModule.setTargetStack(stack);
     }
 
@@ -71,23 +72,23 @@ public abstract class ItemRendererMixin {
 //        return ColorRunesModule.getGlintDirect();
 //    }
 
-    @Accessor
-    public abstract ItemColors getColors();
+//    @Accessor
+//    public abstract ItemColors getColors();
 
-    @Inject(method = "renderBakedItemQuads", at = @At(value = "HEAD"), cancellable = true)
-    public void renderQuads(MatrixStack ms, VertexConsumer vertices, List<BakedQuad> quads, ItemStack stack, int light, int overlay, CallbackInfo ci) {
-        boolean flag = !stack.isEmpty();
-        MatrixStack.Entry entry = ms.peek();
-
-        for(BakedQuad bakedquad : quads) {
-            int i = flag && bakedquad.hasColor() ? getColors().getColor(stack, bakedquad.getColorIndex()) : -1;
-
-            float r = (i >> 16 & 255) / 255.0F;
-            float g = (i >> 8 & 255) / 255.0F;
-            float b = (i & 255) / 255.0F;
-            // quad(Entry matrixEntry, BakedQuad quad, float[] brightnesses, float red, float green, float blue, int[] lights, int overlay, boolean useQuadColorData)
-            vertices.quad(entry, bakedquad, new float[]{1.0F, 1.0F, 1.0F, 1.0F}, r, g, b, new int[]{light, light, light, light}, overlay, true);
-        }
-        ci.cancel();
-    }
+//    @Inject(method = "renderBakedItemQuads", at = @At(value = "HEAD"), cancellable = true)
+//    public void renderQuads(MatrixStack ms, VertexConsumer vertices, List<BakedQuad> quads, ItemStack stack, int light, int overlay, CallbackInfo ci) {
+//        boolean flag = !stack.isEmpty();
+//        MatrixStack.Entry entry = ms.peek();
+//
+//        for(BakedQuad bakedquad : quads) {
+//            int i = flag && bakedquad.hasColor() ? getColors().getColor(stack, bakedquad.getColorIndex()) : -1;
+//
+//            float r = (i >> 16 & 255) / 255.0F;
+//            float g = (i >> 8 & 255) / 255.0F;
+//            float b = (i & 255) / 255.0F;
+//            // quad(Entry matrixEntry, BakedQuad quad, float[] brightnesses, float red, float green, float blue, int[] lights, int overlay, boolean useQuadColorData)
+//            vertices.quad(entry, bakedquad, new float[]{1.0F, 1.0F, 1.0F, 1.0F}, r, g, b, new int[]{light, light, light, light}, overlay, true);
+//        }
+//        ci.cancel();
+//    }
 }

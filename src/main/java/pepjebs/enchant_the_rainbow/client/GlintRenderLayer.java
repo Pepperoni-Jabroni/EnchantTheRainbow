@@ -56,6 +56,7 @@ public class GlintRenderLayer extends RenderLayer {
     }
 
     private static RenderLayer buildGlintRenderLayer(String name) {
+//        EnchantTheRainbowMod.LOGGER.info("buildGlintRenderLayer for " + name); // builds for all 16 colors
         final Identifier res = new Identifier(EnchantTheRainbowMod.MOD_ID, "textures/misc/glint_" + name + ".png");
 
         return RenderLayer.of("glint_" + name, VertexFormats.POSITION_TEXTURE, VertexFormat.DrawMode.QUADS, 256, MultiPhaseParameters.builder()
