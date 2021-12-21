@@ -5,12 +5,14 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AnvilScreenHandlerMixin",
-    "ItemMixin"
+    "ItemMixin",
+    "TridentEntityAccessor"
   ],
   "client": [
-    "ItemRendererMixin",
+    "ArmorFeatureRendererMixin",
     "BufferBuilderStorageMixin",
-    "ArmorFeatureRendererMixin"
+    "ElytraFeatureRendererMixin",
+    "ItemRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

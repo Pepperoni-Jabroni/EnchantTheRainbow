@@ -11,7 +11,6 @@ import net.minecraft.client.render.*;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import pepjebs.enchant_the_rainbow.EnchantTheRainbowMod;
-import pepjebs.enchant_the_rainbow.module.ColorRunesModule;
 
 // This class lovingly yoinked (& updated to 1.18) from
 // https://github.com/VazkiiMods/Quark/blob/master/src/main/java/vazkii/quark/content/tools/client/GlintRenderType.java
@@ -44,7 +43,7 @@ public class GlintRenderLayer extends RenderLayer {
     }
 
     private static List<RenderLayer> newRenderList(Function<String, RenderLayer> func) {
-        ArrayList<RenderLayer> list = new ArrayList<>(ColorRunesModule.RUNE_TYPES);
+        ArrayList<RenderLayer> list = new ArrayList<>(DyeColor.values().length);
 
         for (DyeColor color : DyeColor.values())
             list.add(func.apply(color.getName()));
