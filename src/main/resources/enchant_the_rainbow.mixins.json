@@ -4,7 +4,8 @@
   "package": "pepjebs.enchant_the_rainbow.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "AnvilScreenHandlerMixin"
+    "AnvilScreenHandlerMixin",
+    "ItemMixin"
   ],
   "client": [
     "ItemRendererMixin",

@@ -1,3 +1,4 @@
 {
-  "item.enchant_the_rainbow.nether_star_fragment": "Nether Star Fragment"
+  "item.enchant_the_rainbow.nether_star_fragment": "Nether Star Fragment",
+  "item.enchant_the_rainbow.nether_star_fragment.color": "Glint Color %s"
 }
