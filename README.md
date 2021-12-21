@@ -1,4 +1,7 @@
 # Enchant The Rainbow
+
+<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api"><img src="https://i.imgur.com/Ol1Tcf8.png" width="149" height="50" title="Fabric API" alt="Fabric API"></a>
+
 Enables players to choose the enchantment glint color for their enchanted items.
 
 Mod features and details:
