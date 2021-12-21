@@ -5,6 +5,7 @@
 
   "name": "Enchant the Rainbow",
   "description": "Enables players to choose the enchantment glint color for their enchanted items.",
+  "icon": "assets/enchant_the_rainbow/icon.png",
   "authors": [
     "Pepperoni__Jabroni__"
   ],
@@ -23,9 +24,7 @@
   "mixins": [
     "enchant_the_rainbow.mixins.json"
   ],
-  "accesswidener": [
-    "enchant_the_rainbow.accesswidener"
-  ],
+  "accessWidener": "enchant_the_rainbow.accesswidener",
 
   "depends": {
     "fabricloader": ">=0.11.3",
