@@ -42,43 +42,36 @@ public class ColorRunesModule {
     @Environment(EnvType.CLIENT)
     public static RenderLayer getGlint() {
         int color = changeColor();
-        EnchantTheRainbowMod.LOGGER.info("Inside getGlint " + color);
         return color >= 0 && color < RUNE_TYPES ? GlintRenderLayer.glintColor.get(color) : RenderLayer.getGlint();
     }
 
     @Environment(EnvType.CLIENT)
     public static RenderLayer getEntityGlint() {
         int color = changeColor();
-        EnchantTheRainbowMod.LOGGER.info("Inside getEntityGlint " + color);
         return color >= 0 && color < RUNE_TYPES ? GlintRenderLayer.entityGlintColor.get(color) : RenderLayer.getEntityGlint();
     }
 
     @Environment(EnvType.CLIENT)
     public static RenderLayer getGlintDirect() {
         int color = changeColor();
-        EnchantTheRainbowMod.LOGGER.info("Inside getGlintDirect " + color);
-        EnchantTheRainbowMod.LOGGER.info("GlintRenderLayer.glintDirectColor.size() " + GlintRenderLayer.glintDirectColor.size());
         return color >= 0 && color < RUNE_TYPES ? GlintRenderLayer.glintDirectColor.get(color) : RenderLayer.getDirectGlint();
     }
 
     @Environment(EnvType.CLIENT)
     public static RenderLayer getEntityGlintDirect() {
         int color = changeColor();
-        EnchantTheRainbowMod.LOGGER.info("Inside getEntityGlintDirect " + color);
         return color >= 0 && color < RUNE_TYPES ? GlintRenderLayer.entityGlintDirectColor.get(color) : RenderLayer.getDirectEntityGlint();
     }
 
     @Environment(EnvType.CLIENT)
     public static RenderLayer getArmorGlint() {
         int color = changeColor();
-        EnchantTheRainbowMod.LOGGER.info("Inside getArmorGlint " + color);
         return color >= 0 && color < RUNE_TYPES ? GlintRenderLayer.armorGlintColor.get(color) : RenderLayer.getArmorGlint();
     }
 
     @Environment(EnvType.CLIENT)
     public static RenderLayer getArmorEntityGlint() {
         int color = changeColor();
-        EnchantTheRainbowMod.LOGGER.info("Inside getArmorEntityGlint " + color);
         return color >= 0 && color < RUNE_TYPES ? GlintRenderLayer.armorEntityGlintColor.get(color) : RenderLayer.getArmorEntityGlint();
     }
 }
