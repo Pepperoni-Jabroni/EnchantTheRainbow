@@ -22,7 +22,7 @@ public class GlintRenderLayer extends RenderLayer {
     public static List<RenderLayer> glintColor = newRenderList(GlintRenderLayer::buildGlintRenderLayer);
     public static List<RenderLayer> entityGlintColor = newRenderList(GlintRenderLayer::buildEntityGlintRenderLayer);
     public static List<RenderLayer> glintDirectColor = newRenderList(GlintRenderLayer::buildGlintDirectRenderLayer);
-    public static List<RenderLayer> entityGlintDirectColor = newRenderList(GlintRenderLayer::buildEntityGlintDriectRenderLayer);
+    public static List<RenderLayer> entityGlintDirectColor = newRenderList(GlintRenderLayer::buildEntityGlintDirectRenderLayer);
 
     public static List<RenderLayer> armorGlintColor = newRenderList(GlintRenderLayer::buildArmorGlintRenderLayer);
     public static List<RenderLayer> armorEntityGlintColor = newRenderList(GlintRenderLayer::buildArmorEntityGlintRenderLayer);
@@ -99,7 +99,7 @@ public class GlintRenderLayer extends RenderLayer {
     }
 
 
-    private static RenderLayer buildEntityGlintDriectRenderLayer(String name) {
+    private static RenderLayer buildEntityGlintDirectRenderLayer(String name) {
         final Identifier res = new Identifier(EnchantTheRainbowMod.MOD_ID, "textures/misc/glint_" + name + ".png");
 
         return RenderLayer.of("entity_glint_direct_" + name, VertexFormats.POSITION_TEXTURE, VertexFormat.DrawMode.QUADS, 256, MultiPhaseParameters.builder()
@@ -115,7 +115,7 @@ public class GlintRenderLayer extends RenderLayer {
     private static RenderLayer buildArmorGlintRenderLayer(String name) {
         final Identifier res = new Identifier(EnchantTheRainbowMod.MOD_ID, "textures/misc/glint_" + name + ".png");
 
-        return RenderLayer.of("entity_glint_direct_" + name, VertexFormats.POSITION_TEXTURE, VertexFormat.DrawMode.QUADS, 256, MultiPhaseParameters.builder()
+        return RenderLayer.of("armor_glint_" + name, VertexFormats.POSITION_TEXTURE, VertexFormat.DrawMode.QUADS, 256, MultiPhaseParameters.builder()
                 .texture(new Texture(res, true, false))
                 .writeMaskState(COLOR_MASK)
                 .cull(DISABLE_CULLING)
@@ -129,7 +129,7 @@ public class GlintRenderLayer extends RenderLayer {
     private static RenderLayer buildArmorEntityGlintRenderLayer(String name) {
         final Identifier res = new Identifier(EnchantTheRainbowMod.MOD_ID, "textures/misc/glint_" + name + ".png");
 
-        return RenderLayer.of("entity_glint_direct_" + name, VertexFormats.POSITION_TEXTURE, VertexFormat.DrawMode.QUADS, 256, MultiPhaseParameters.builder()
+        return RenderLayer.of("armor_entity_glint_" + name, VertexFormats.POSITION_TEXTURE, VertexFormat.DrawMode.QUADS, 256, MultiPhaseParameters.builder()
                 .texture(new Texture(res, true, false))
                 .writeMaskState(COLOR_MASK)
                 .cull(DISABLE_CULLING)
