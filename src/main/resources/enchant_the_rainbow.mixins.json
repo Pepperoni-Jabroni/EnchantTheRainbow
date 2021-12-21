@@ -9,7 +9,8 @@
   ],
   "client": [
     "ItemRendererMixin",
-    "BufferBuilderStorageMixin"
+    "BufferBuilderStorageMixin",
+    "ArmorFeatureRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
