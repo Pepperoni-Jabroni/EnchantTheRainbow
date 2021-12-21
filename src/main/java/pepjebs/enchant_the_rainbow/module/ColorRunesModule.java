@@ -5,7 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.ItemStack;
 import pepjebs.enchant_the_rainbow.EnchantTheRainbowMod;
-import pepjebs.enchant_the_rainbow.mixin.GlintRenderLayer;
+import pepjebs.enchant_the_rainbow.client.GlintRenderLayer;
 
 
 /**
