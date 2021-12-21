@@ -25,7 +25,7 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
         super(context);
     }
 
-    @Inject(method = "renderArmor", at = @At("HEAD"), remap = false)
+    @Inject(method = "renderArmor", at = @At("HEAD"))
     private void setEnchantTheRainbowItemStack(MatrixStack matrices, VertexConsumerProvider vertexConsumers, T entity, EquipmentSlot armorSlot, int light, A model, CallbackInfo ci) {
         ItemStack itemStack = entity.getEquippedStack(armorSlot);
         EnchantTheRainbowCore.setTargetStack(itemStack);

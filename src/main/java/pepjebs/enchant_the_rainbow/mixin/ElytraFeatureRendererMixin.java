@@ -24,7 +24,7 @@ public abstract class ElytraFeatureRendererMixin <T extends LivingEntity, M exte
         super(context);
     }
 
-    @Inject(method = "render", at = @At("HEAD"), remap = false)
+    @Inject(method = "render", at = @At("HEAD"))
     private void setEnchantTheRainbowItemStack(
             MatrixStack matrixStack,
             VertexConsumerProvider vertexConsumerProvider,

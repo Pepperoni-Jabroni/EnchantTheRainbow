@@ -23,7 +23,7 @@ public abstract class TridentEntityRendererMixin extends EntityRenderer<TridentE
         super(ctx);
     }
 
-    @Inject(method = "render", at = @At("HEAD"), remap = false)
+    @Inject(method = "render", at = @At("HEAD"))
     private void setEnchantTheRainbowItemStack(
             TridentEntity tridentEntity,
             float f,
