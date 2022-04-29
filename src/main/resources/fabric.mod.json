@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "enchant_the_rainbow",
-  "version": "1.0.0",
+  "version": "1.0.1",
 
   "name": "Enchant the Rainbow",
   "description": "Enables players to choose the enchantment glint color for their enchanted items.",
