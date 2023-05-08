@@ -1,11 +1,14 @@
 package pepjebs.enchant_the_rainbow;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemGroups;
+import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pepjebs.enchant_the_rainbow.item.NetherStarFragmentItem;
@@ -20,10 +23,12 @@ public class EnchantTheRainbowMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        Registry.register(
-                Registry.ITEM,
+        NETHER_STAR_FRAGMENT = Registry.register(
+                Registries.ITEM,
                 new Identifier(MOD_ID, "nether_star_fragment"),
-                new NetherStarFragmentItem((new Item.Settings()).group(ItemGroup.MISC).rarity(Rarity.UNCOMMON)));
-        NETHER_STAR_FRAGMENT = Registry.ITEM.get(new Identifier(MOD_ID, "nether_star_fragment"));
+                new NetherStarFragmentItem((new Item.Settings()).rarity(Rarity.UNCOMMON)));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
+            content.addAfter(Items.NETHER_STAR, NETHER_STAR_FRAGMENT);
+        });
     }
 }
