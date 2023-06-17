@@ -9,7 +9,7 @@
     "TridentEntityAccessor"
   ],
   "client": [
-    "ArmorFeatureRendererMixin",
+    "ArmorFeatureRendererEnchantTheRainbowMixin",
     "BufferBuilderStorageMixin",
     "ElytraFeatureRendererMixin",
     "ItemRendererMixin"

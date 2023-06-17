@@ -81,7 +81,7 @@ public class GlintRenderLayer extends RenderLayer {
                 .cull(DISABLE_CULLING)
                 .depthTest(EQUAL_DEPTH_TEST)
                 .transparency(GLINT_TRANSPARENCY)
-                .target(ITEM_TARGET)
+                .target(ITEM_ENTITY_TARGET)
                 .texturing(ENTITY_GLINT_TEXTURING)
                 .build(false));
     }
@@ -157,7 +157,7 @@ public class GlintRenderLayer extends RenderLayer {
                 .depthTest(EQUAL_DEPTH_TEST)
                 .transparency(GLINT_TRANSPARENCY)
                 .texturing(GLINT_TEXTURING)
-                .target(ITEM_TARGET)
+                .target(ITEM_ENTITY_TARGET)
                 .build(false));
     }
 }
