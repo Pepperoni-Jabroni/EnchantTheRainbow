@@ -32,7 +32,7 @@ public abstract class TridentEntityRendererMixin extends EntityRenderer<TridentE
             VertexConsumerProvider vertexConsumerProvider,
             int i,
             CallbackInfo ci) {
-        ItemStack itemStack = ((TridentEntityAccessor) tridentEntity).getTridentStack();
+        ItemStack itemStack = tridentEntity.getItemStack();
         EnchantTheRainbowCore.setTargetStack(itemStack);
     }
 }

@@ -5,8 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AnvilScreenHandlerMixin",
-    "ItemMixin",
-    "TridentEntityAccessor"
+    "ItemMixin"
   ],
   "client": [
     "ArmorFeatureRendererEnchantTheRainbowMixin",
